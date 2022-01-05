@@ -11,45 +11,43 @@ services:
     # dockerCommand: /start
     healthCheckPath: /status
     envVars:
-      - key: PG_HOST
-        fromService:
-          name: mainnet-postgres
-          type: pserv
-          property: host
-      - key: PG_PORT
-        value: 5432
-      - key: PG_USER
-        value: postgres
-      - key: PG_PASSWORD
-        fromService:
-          type: pserv
-          name: mainnet-postgres
-          envVarKey: POSTGRES_PASSWORD
-      - key: PG_DATABASE
-        value: postgres
-      ##
-      ##  To use manageded DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
-      ## 
-      # - key: PG_HOST
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: host
-      # - key: PG_PORT
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: port
-      # - key: PG_DATABASE
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: database
-      # - key: PG_USER
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: user
-      # - key: PG_PASSWORD
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: password
+#      - key: PG_HOST
+#        fromService:
+#          name: mainnet-postgres
+#          type: pserv
+#          property: host
+#      - key: PG_PORT
+#        value: 5432
+#      - key: PG_USER
+#        value: postgres
+#      - key: PG_PASSWORD
+#        fromService:
+#          type: pserv
+#          name: mainnet-postgres
+#          envVarKey: POSTGRES_PASSWORD
+#      - key: PG_DATABASE
+#        value: postgres
+      ##  To use managed DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
+       - key: PG_HOST
+         fromDatabase:
+           name: mainnet-postgres
+           property: host
+       - key: PG_PORT
+         fromDatabase:
+           name: mainnet-postgres
+           property: port
+       - key: PG_DATABASE
+         fromDatabase:
+           name: mainnet-postgres
+           property: database
+       - key: PG_USER
+         fromDatabase:
+           name: mainnet-postgres
+           property: user
+       - key: PG_PASSWORD
+         fromDatabase:
+           name: mainnet-postgres
+           property: password
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
       - key: STACKS_CORE_EVENT_HOST
@@ -71,28 +69,28 @@ services:
       sizeGB: 50 # optional
 
   # Private Postgres instance
-  - name: mainnet-postgres
-    type: pserv
-    env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
-    branch: mainnet-render
-    dockerfilePath: postgres.Dockerfile
-    envVars:
-      - key: POSTGRES_PASSWORD
-        generateValue: true # will generate a base64-encoded 256-bit secret
-    # for mainnet, keep the data ephemeral
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10 # optional
+#  - name: mainnet-postgres
+#    type: pserv
+#    env: docker
+#    region: oregon # optional (defaults to oregon)
+#    plan: standard # optional (defaults to starter)
+#    branch: mainnet-render
+#    dockerfilePath: postgres.Dockerfile
+#    envVars:
+#      - key: POSTGRES_PASSWORD
+#        generateValue: true # will generate a base64-encoded 256-bit secret
+#    # for mainnet, keep the data ephemeral
+#    disk:
+#      name: postgres-data
+#      mountPath: /var/lib/postgresql/data
+#      sizeGB: 10 # optional
 
 # Managed postgres instance
 # databases:
-#   - name: mainnet-postgres
-#     databaseName: mainnet # optional (Render may add a suffix)
-#     user: mainnet # optional
-#     ipAllowList: []
+   - name: mainnet-postgres
+     databaseName: mainnet # optional (Render may add a suffix)
+     user: mainnet # optional
+     ipAllowList: []
 
 envVarGroups:
   - name: mainnet-settings
