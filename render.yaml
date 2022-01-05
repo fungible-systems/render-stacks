@@ -48,11 +48,12 @@ services:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 # optional
-    databases:
-      - name: mainnet-postgres
-        databaseName: mainnet # optional (Render may add a suffix)
-        user: mainnet # optional
-        ipAllowList: []
+
+databases:
+  - name: mainnet-postgres
+    databaseName: mainnet # optional (Render may add a suffix)
+    user: mainnet # optional
+    ipAllowList: []
 
 envVarGroups:
   - name: mainnet-settings
