@@ -1,35 +1,35 @@
 services:
   # stacks-blockchain-api instance
-  - name: managed-mainnet-stacks-blockchain
+  - name: mainnet-stacks-blockchain
     type: web
     env: docker
     region: oregon
-    plan: Pro Plus
-    branch: master
+    plan: Standard Plus
+    branch: mainnet-replica
     dockerfilePath: standalone.Dockerfile
     dockerContext: .
     healthCheckPath: /status
-    autoDeploy: false 
+    autoDeploy: false
     envVars:
       - key: PG_HOST
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet-postgres
           property: host
       - key: PG_PORT
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet-postgres
           property: port
       - key: PG_DATABASE
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet-postgres
           property: database
       - key: PG_USER
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet-postgres
           property: user
       - key: PG_PASSWORD
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet-postgres
           property: password
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
@@ -45,19 +45,19 @@ services:
         value: localhost
       - key: STACKS_CORE_RPC_PORT
         value: 20443
-      - fromGroup: managed-mainnet-settings
+      - fromGroup: mainnet-settings
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 # optional
 
-# # Managed postgres instance
+
 databases:
-  - name: managed-mainnet-postgres
+  - name: mainnet-postgres
     plan: Standard Plus
 
 envVarGroups:
-  - name: managed-mainnet-settings
+  - name: mainnet-settings
     envVars:
       - key: NODE_ENV
         value: production
